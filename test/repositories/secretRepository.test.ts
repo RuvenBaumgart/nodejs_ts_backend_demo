@@ -1,8 +1,9 @@
-import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { SecretRepository } from '../../src/backend/repositories/SecretRepository'
+import mongoose from 'mongoose';
+
 import { Secret } from '../../src/backend/models/Secret';
 import { SecretId } from '../../src/backend/models/SecretId';
+import { SecretRepository } from '../../src/backend/repositories/SecretRepository';
 
 let mongod: MongoMemoryServer;
 let secretRepository: SecretRepository;
@@ -31,13 +32,19 @@ afterAll(async()=>{
 
 
 describe("Secret Repository test", ()=>{
-  it("should store a secret", ()=>{
-    expect(secretRepository.storeSecret(secret, secretId)).resolves.toEqual(secretId);
-  })
+  it("should have conneted to in memory database",()=>{
+    expect(mongoose.connection.readyState).toEqual(1);
+  });
+
+  it("should store a secret", async ()=>{
+    const storeSecretSpy = jest.spyOn(secretRepository, 'storeSecret');
+
+    await expect(secretRepository.storeSecret(secret, secretId)).resolves.toEqual(secretId);
+    expect(storeSecretSpy).toBeCalledTimes(1);
+
+  });
 
   it("should retrieve a previous stored secret", async () =>{
-    secretRepository.storeSecret(secret, secretId);
-    await expect(secretRepository.getSecretBySecretId(secretId)).resolves.toEqual(secret);
+    await expect(secretRepository.getSecretBySecretId(secretId)).toEqual(secret);
   })
 })
-

@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
 
-const secretScheme = new mongoose.Schema({
+interface ISecretModel extends mongoose.Document{
+  secretId: string,
+  secret: string
+}
+
+const secretSchema = new mongoose.Schema({
   secretId: String,
   secret: String
 })
 
 
-export const SecretModel = mongoose.model("SecretModel", secretScheme);
+export const SecretModel = mongoose.model<ISecretModel>("SecretModel", secretSchema);

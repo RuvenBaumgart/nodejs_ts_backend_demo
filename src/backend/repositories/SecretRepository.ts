@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-
-import { DataBaseError } from '../error/DataBaseError';
 import { NoDataBaseConnection } from '../error/NoDataBaseConnection';
 import { Secret } from '../models/Secret';
 import { SecretId } from '../models/SecretId';
@@ -12,15 +10,8 @@ export class SecretRepository implements ISecretRepository{
   constructor(){}
 
   async getSecretBySecretId(secretId: SecretId): Promise<Secret> {
-    var secret = new Secret("");
-    await SecretModel.findOne({secreetId: secretId.getSecretId}, (err: Error, result: string) =>{
-      if(err){
-        throw new DataBaseError(err.message);
-      } else {
-       secret = new Secret(result);
-      }
-    });
-    return secret;
+   const doc = await SecretModel.findOne({secretId: secretId.getSecretId});
+   return new Secret(doc?.secret);
   }
 
   removeSecretBySecretId(SecretId: SecretId): Promise<void> {
@@ -29,10 +20,10 @@ export class SecretRepository implements ISecretRepository{
 
 
   async storeSecret(secret: Secret, secretId: SecretId): Promise<SecretId> {
-      const res =  await SecretModel.updateOne({secretId: secretId.getSecretId, secret: secret.getSecret});
-      if(res.acknowledged === true){
-        return secretId;
-      } else {
+      const res =  await SecretModel.create({secretId: secretId.getSecretId}, {secret: secret.getSecret});
+      if(res !== null){
+        return new SecretId(res?.secretId);
+      }
         console.log("Error during storing a new secret")
         throw new NoDataBaseConnection("No Database connection established");
       }

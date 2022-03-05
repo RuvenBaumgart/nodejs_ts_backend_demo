@@ -38,13 +38,12 @@ describe("Secret Repository test", ()=>{
 
   it("should store a secret", async ()=>{
     const storeSecretSpy = jest.spyOn(secretRepository, 'storeSecret');
-
     await expect(secretRepository.storeSecret(secret, secretId)).resolves.toEqual(secretId);
     expect(storeSecretSpy).toBeCalledTimes(1);
 
   });
 
   it("should retrieve a previous stored secret", async () =>{
-    await expect(secretRepository.getSecretBySecretId(secretId)).toEqual(secret);
+   await expect(secretRepository.getSecretBySecretId(secretId)).resolves.toEqual(secret);
   })
 })

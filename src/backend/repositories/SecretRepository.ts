@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 import { NoDataBaseConnection } from '../error/NoDataBaseConnection';
 import { Secret } from '../models/Secret';
 import { SecretId } from '../models/SecretId';
@@ -10,23 +11,23 @@ export class SecretRepository implements ISecretRepository{
   constructor(){}
 
   async getSecretBySecretId(secretId: SecretId): Promise<Secret> {
-   const doc = await SecretModel.findOne({secretId: secretId.getSecretId});
+   const doc = await SecretModel.findOne({secretId: secretId.getSecretId()});
    return new Secret(doc?.secret);
   }
 
-  removeSecretBySecretId(SecretId: SecretId): Promise<void> {
-    throw new Error('Method not implemented.');
+  async removeSecretBySecretId(secretId: SecretId): Promise<void> {
+    const res = await SecretModel.remove({secretId: secretId.getSecretId()});
+    return res.acknowledged;
   }
 
 
   async storeSecret(secret: Secret, secretId: SecretId): Promise<SecretId> {
-      const res =  await SecretModel.create({secretId: secretId.getSecretId}, {secret: secret.getSecret});
+      const res =  await SecretModel.create({secretId: secretId.getSecretId(), secret: secret.getSecret()});
       if(res !== null){
         return new SecretId(res?.secretId);
       }
-        console.log("Error during storing a new secret")
-        throw new NoDataBaseConnection("No Database connection established");
-      }
+      console.log("Error during storing a new secret")
+      throw new NoDataBaseConnection("No Database connection established");
   }
 
   private async establishConnection(url: string): Promise<any>{

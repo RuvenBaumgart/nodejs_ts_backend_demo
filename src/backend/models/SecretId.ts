@@ -1,11 +1,11 @@
 export class SecretId{
-  private urlid: string;
+  private secretId: string;
 
-  constructor(urlid: string){
-    this.urlid = urlid;
+  constructor(secretId: string){
+    this.secretId = secretId;
   }
 
-  getUrlId(){
-    return this.urlid;
+  getSecretId(){
+    return this.secretId;
   }
 }

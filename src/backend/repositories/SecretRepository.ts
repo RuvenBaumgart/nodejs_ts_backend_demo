@@ -11,7 +11,7 @@ export class SecretRepository implements ISecretRepository{
   constructor(){}
 
   async getSecretBySecretId(secretId: SecretId): Promise<Secret> {
-   const secret = await SecretModel.findOne(secretId);
+   const secret = await SecretModel.findOne({secreetId: secretId.getSecretId});
    return secret;
   }
 
@@ -20,7 +20,7 @@ export class SecretRepository implements ISecretRepository{
   }
   async storeSecret(secret: Secret, secretId: SecretId): Promise<SecretId> {
 
-      const res =  await SecretModel.updateOne({secretId: secretId}, {secret: secret});
+      const res =  await SecretModel.updateOne({secretId: secretId.getSecretId, secret: secret.getSecret});
       if(res.acknowledged === true){
         return secretId;
       } else {

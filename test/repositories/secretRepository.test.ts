@@ -53,5 +53,8 @@ describe("Secret Repository test", ()=>{
     expect(await secretRepository.removeSecretBySecretId(secretId)).toBeTruthy;
   });
 
+  it("should return null  if a secret is not found", async ()=>{
+    expect(await secretRepository.getSecretBySecretId(secretId)).toBeNull;
+  })
 
 })

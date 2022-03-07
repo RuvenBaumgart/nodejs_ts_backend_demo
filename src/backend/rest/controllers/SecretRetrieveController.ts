@@ -4,26 +4,29 @@ import { ValidationError } from '../../error/ValidationError';
 import { ISecretRetriever } from '../../models/ISecretRetriever';
 import { SecretId } from '../../models/SecretId';
 
-
- export class SecretController {
+ export class SecretRetrieveController {
   private secretRetriever: ISecretRetriever;
 
   constructor(secretRetriever: ISecretRetriever){
     this.secretRetriever = secretRetriever;
   }
-  
+
   async retrieveSecretById (request: Request, response: Response, next: NextFunction) {
-      try{
-        if(!request.params?.secretId) 
-          throw new ValidationError("Unknown SecretId");
-        const secretId = request.params.secretId;
-        const secret = await this.secretRetriever.retrieveSecret(new SecretId(secretId));
-        response.status(200)
-        response.json(secret);
-      } catch(err){
-        next(err);
-      }
-  }
+    try{
+      this.validateRequest(request);
+      const secretId = request.params.secretId;
+      const result = await this.secretRetriever.retrieveSecret(new SecretId(secretId!))
+      response.status(200)
+      response.json(result);
+    } catch(err: any){
+     next(err)
+    }
+  };
+
+   private validateRequest(request: Request) {
+     if (!request.params?.secretId)
+       throw new ValidationError("No SecretId");
+   }
 
   public getSecretRetriever(): ISecretRetriever{
     return this.secretRetriever;

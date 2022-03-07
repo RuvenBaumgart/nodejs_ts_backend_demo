@@ -1,10 +1,10 @@
-import { NextFunction, request, response, Request, Response} from 'express';
+import { NextFunction, request, Request, response, Response } from 'express';
 
-import { ValidationError } from '../../../src/backend/error/ValidationError';
-import { SecretController } from '../../../src/backend/rest/controllers/SecretController';
-import { ISecretRetriever } from '../../../src/backend/models/ISecretRetriever';
 import { DataBaseError } from '../../../src/backend/error/DataBaseError';
+import { ValidationError } from '../../../src/backend/error/ValidationError';
+import { ISecretRetriever } from '../../../src/backend/models/ISecretRetriever';
 import { Secret } from '../../../src/backend/models/Secret';
+import { SecretRetrieveController } from '../../../src/backend/rest/controllers/SecretRetrieveController';
 
 describe("SecretsController Test", ()=>{
   it("Should throw an exception when url is missing an secretid", ()=>{
@@ -12,11 +12,11 @@ describe("SecretsController Test", ()=>{
     const secretRetriever: ISecretRetriever = {
       retrieveSecret: jest.fn()
     }
-    const secretController = new SecretController(secretRetriever);
-    secretController.retrieveSecretById(request, response, next);
+    const secretRetrieveController = new SecretRetrieveController(secretRetriever);
+    secretRetrieveController.retrieveSecretById(request, response, next);
 
     expect(next).toBeCalledTimes(1);
-    expect(next).toBeCalledWith(new ValidationError("Unknown SecretId"));
+    expect(next).toBeCalledWith(new ValidationError("No SecretId"));
   })
 
   it("Should throw an error when secret is not found", async ()=> {
@@ -30,8 +30,8 @@ describe("SecretsController Test", ()=>{
         })
       }
 
-      const secretController = new SecretController(secretRetriever);
-      expect( await secretController.retrieveSecretById(req, response, next)).toThrowError;
+      const secretRetrieveController = new SecretRetrieveController(secretRetriever);
+      expect( await secretRetrieveController.retrieveSecretById(req, response, next)).toThrowError;
   })
 
   it("Should return a secret when found in database", async ()=>{
@@ -48,9 +48,10 @@ describe("SecretsController Test", ()=>{
       })
     }
 
-    const secretController = new SecretController(secretRetriever);
-    await secretController.retrieveSecretById(req, res, next);
+    const secretRetrieveController = new SecretRetrieveController(secretRetriever);
+    await secretRetrieveController.retrieveSecretById(req, res, next);
     expect(next).toBeCalledTimes(0);
     expect(res.status).toBeCalledWith(200);
   })
+
 })

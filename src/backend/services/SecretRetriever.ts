@@ -1,8 +1,8 @@
+import { DataBaseError } from '../error/DataBaseError';
 import { ISecretRetriever } from '../models/ISecretRetriever';
 import { Secret } from '../models/Secret';
 import { SecretId } from '../models/SecretId';
 import { ISecretRepository } from '../repositories/ISecretRepository';
-import { DataBaseError } from '../error/DataBaseError'
 
 export class SecretRetriever implements ISecretRetriever{
   private secretRepository: ISecretRepository;
@@ -10,7 +10,7 @@ export class SecretRetriever implements ISecretRetriever{
   constructor(secretRepository: ISecretRepository){
     this.secretRepository = secretRepository;
   }
-  
+
   async retrieveSecret(secretId: SecretId): Promise<Secret> {
     const secret = await this.secretRepository.getSecretBySecretId(secretId);
     if(secret === null){

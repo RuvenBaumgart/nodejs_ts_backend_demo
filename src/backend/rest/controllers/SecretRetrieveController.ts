@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { ValidationError } from '../../error/ValidationError';
+import { ValidationError } from '../../errors/ValidationError';
 import { ISecretRetriever } from '../../models/ISecretRetriever';
 import { SecretId } from '../../models/SecretId';
 

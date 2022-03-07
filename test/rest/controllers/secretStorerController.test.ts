@@ -1,6 +1,6 @@
 import { NextFunction, Request, request, Response, response } from 'express';
 
-import { ValidationError } from '../../../src/backend/error/ValidationError';
+import { ValidationError } from '../../../src/backend/errors/ValidationError';
 import { ISecretStorer } from '../../../src/backend/models/ISecretStorer';
 import { SecretId } from '../../../src/backend/models/SecretId';
 import { SecretStorerController } from '../../../src/backend/rest/controllers/SecretStorerController';

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { NoDataBaseConnection } from '../error/NoDataBaseConnection';
+import { NoDataBaseConnection } from '../errors/NoDataBaseConnection';
 import { Secret } from '../models/Secret';
 import { SecretId } from '../models/SecretId';
 import { SecretModel } from '../models/SecretModel';

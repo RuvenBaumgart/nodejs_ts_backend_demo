@@ -1,4 +1,4 @@
-import { DataBaseError } from '../error/DataBaseError';
+import { DataBaseError } from '../errors/DataBaseError';
 import { ISecretRetriever } from '../models/ISecretRetriever';
 import { Secret } from '../models/Secret';
 import { SecretId } from '../models/SecretId';

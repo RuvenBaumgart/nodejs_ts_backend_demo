@@ -1,7 +1,7 @@
 import { NextFunction, request, Request, response, Response } from 'express';
 
-import { DataBaseError } from '../../../src/backend/error/DataBaseError';
-import { ValidationError } from '../../../src/backend/error/ValidationError';
+import { DataBaseError } from '../../../src/backend/errors/DataBaseError';
+import { ValidationError } from '../../../src/backend/errors/ValidationError';
 import { ISecretRetriever } from '../../../src/backend/models/ISecretRetriever';
 import { Secret } from '../../../src/backend/models/Secret';
 import { SecretRetrieveController } from '../../../src/backend/rest/controllers/SecretRetrieveController';

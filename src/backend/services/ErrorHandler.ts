@@ -23,5 +23,6 @@ export function errorHandler(error: Error, req: Request, res: Response, next: Ne
       title: error.name,
       message: error.message
     });
-  }
+    next(error)
+  };
 }

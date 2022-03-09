@@ -8,7 +8,9 @@ import { ISecretRepository } from './ISecretRepository';
 
 export class SecretRepository implements ISecretRepository{
 
-  constructor(){}
+  constructor(){
+    this.connectToDb("");
+  }
 
   async getSecretBySecretId(secretId: SecretId): Promise<Secret> {
    const doc = await SecretModel.findOne({secretId: secretId.getSecretId()});

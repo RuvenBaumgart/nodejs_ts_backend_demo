@@ -11,16 +11,16 @@ export class Application{
   ** Otherwise it seems like the middleware like express.json finds no route for next.
   */
   constructor(routes: IRoute[]){
+    this.config();
     routes.forEach(route =>{
       route.mount(this.app);
     })
-    this.config();
     this.app.use(errorHandler);
   }
 
   private config():void {
-   this.app.use(express.json);
-   this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({extended:true}));
   }
 
   public startApplication(port: number): void{

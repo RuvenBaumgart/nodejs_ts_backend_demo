@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { ValidationError } from '../../errors/ValidationError';
 import { ISecretStorer } from '../../models/ISecretStorer';
+import { Secret } from '../../models/Secret';
 
 export class SecretStorerController {
   private secretStorer: ISecretStorer;
@@ -11,10 +12,10 @@ export class SecretStorerController {
   }
 
   public async storeSecret(request: Request, response: Response, next: NextFunction) {
+
     try{
       this.validateBody(request);
-      console.log("storeSecret");
-      const secretId = await this.secretStorer.storeSecret(request.body.secret);
+      const secretId = await this.secretStorer.storeSecret(new Secret(request.body.secret));
       response.status(200);
       response.json(secretId.getSecretId());
 

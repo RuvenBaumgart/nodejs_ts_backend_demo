@@ -33,7 +33,7 @@ export class SecretRepository implements ISecretRepository{
   }
 
   private async establishConnection(url: string): Promise<any>{
-     return await mongoose.connect('mongodb://localhost:27017/test');
+     return await mongoose.connect('mongodb://127.0.0.1:27017/test');
   }
 
  public connectToDb(url: string): void{

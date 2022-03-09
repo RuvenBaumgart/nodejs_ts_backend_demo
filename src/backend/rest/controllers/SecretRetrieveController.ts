@@ -13,7 +13,6 @@ import { SecretId } from '../../models/SecretId';
 
   async retrieveSecretById (request: Request, response: Response, next: NextFunction) {
     try{
-      console.log("here");
       this.validateRequest(request);
       const secretId = request.params.secretId;
       const result = await this.secretRetriever.retrieveSecret(new SecretId(secretId!))

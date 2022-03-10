@@ -6,10 +6,6 @@ import { errorHandler } from './backend/services/ErrorHandler';
 export class Application{
   private app: express.Application = express();
 
-  /*
-  ** It's important to mount the routes prior the configuration and middleware.
-  ** Otherwise it seems like the middleware like express.json finds no route for next.
-  */
   constructor(routes: IRoute[]){
     this.config();
     routes.forEach(route =>{
